@@ -1,0 +1,7 @@
+name: rnn
+dependencies:
+  - python=3.10
+  - pytorch::pytorch
+  - conda-forge::jieba
+  - conda-forge::scikit-learn
+  - conda-forge::datasets
