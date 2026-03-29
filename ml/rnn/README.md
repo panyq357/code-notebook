@@ -18,3 +18,9 @@ Train model.
 ```bash
 python src/train.py
 ```
+
+Run prediction app.
+
+```bash
+python3 src/predict.py
+```

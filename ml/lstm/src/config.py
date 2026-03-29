@@ -1,0 +1,14 @@
+RAW_DATA_DIR = "data/raw/"
+PROCESSED_DATA_DIR = "data/processed/"
+VOCAB_FILE = PROCESSED_DATA_DIR + "volcabulary.txt"
+TRAIN_FILE = PROCESSED_DATA_DIR + "train_data.jsonl"
+TEST_FILE = PROCESSED_DATA_DIR + "test_data.jsonl"
+MODEL_FILE = "models/model.best_loss.pt"
+
+SEQ_LEN = 128
+EMBEDDING_DIM = 128
+HIDDEN_SIZE = 256
+
+BATCH_SIZE = 64
+LEARNING_RATE = 0.001
+EPOCH_NUM = 10
