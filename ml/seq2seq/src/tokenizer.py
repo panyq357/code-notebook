@@ -1,8 +1,7 @@
 from abc import abstractmethod
-import jieba
 import nltk
 
-class Tokenizer():
+class BaseTokenizer():
 
     pad_token = "<pad>"
     unk_token = "<unk>"
@@ -10,9 +9,9 @@ class Tokenizer():
     eos_token = "<eos>"
 
 
-    @staticmethod
+    @classmethod
     @abstractmethod
-    def tokenize(sentence) -> list[str]:
+    def tokenize(cls, sentence) -> list[str]:
         pass
 
 
@@ -48,8 +47,11 @@ class Tokenizer():
         self.sos_token_index = self.word2index[self.sos_token]
 
 
-    def encode(self, sentence):
-        return [self.word2index.get(word, self.unk_token_index) for word in self.tokenize(sentence)]
+    def encode(self, sentence, add_sos_eos=False):
+        tokenized = self.tokenize(sentence)
+        if add_sos_eos:
+            tokenized = [self.sos_token] + tokenized + [self.eos_token]
+        return [self.word2index.get(word, self.unk_token_index) for word in tokenized]
 
 
     def decode(self, encoded):
@@ -67,3 +69,29 @@ class Tokenizer():
 
         return out
         
+
+class ChineseTokenizer(BaseTokenizer):
+    
+    @classmethod
+    def tokenize(cls, sentence) -> list[str]:
+        return list(sentence)
+
+
+class EnglishTokenizer(BaseTokenizer):
+
+    tokenizer = nltk.TreebankWordTokenizer()
+    detokenizer = nltk.TreebankWordDetokenizer()
+    
+    @classmethod
+    def tokenize(cls, sentence) -> list[str]:
+        return cls.tokenizer.tokenize(sentence)
+
+
+    @classmethod
+    def detokenize(cls, tokenized) -> str:
+        return cls.detokenizer.detokenize(tokenized)
+
+    
+    def decode_to_sentence(self, encoded) -> str:
+        decoded = self.decode(encoded)
+        return self.detokenize(decoded)

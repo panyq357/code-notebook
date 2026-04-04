@@ -1,0 +1,4 @@
+PROCESSED_DATA_PATH = "data/processed/"
+
+EMBEDDING_DIM = 128
+HIDDEN_SIZE = 256
